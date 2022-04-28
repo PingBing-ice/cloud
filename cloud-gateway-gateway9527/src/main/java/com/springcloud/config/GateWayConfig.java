@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+//Gateway网关路由的配置方式
 @Configuration
 public class GateWayConfig {
     @Bean

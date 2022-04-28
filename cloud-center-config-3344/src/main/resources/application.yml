@@ -1,6 +1,5 @@
 server:
   port: 3344
-
 spring:
   application:
     name:  cloud-config-center #注册进Eureka服务器的微服务名
@@ -8,13 +7,16 @@ spring:
     config:
       server:
         git:
-          uri: git@github.com:PengBing-ice/springcloud-config.git #GitHub上面的git仓库名字
+#          git@github.com:PingBing-ice/config.git ssh
+          uri: https://github.com/PingBing-ice/config.git #  http GitHub上面的git仓库名字
           ####搜索目录
           search-paths:
-            - springcloud-config
+            - config  # 要连接的仓库
+          force-pull: true  # 开启用户名,密码登录
+          username: PingBing-ice # 用户名
+          password: pwb20011106 # 密码
       ####读取分支
       label: master
-
 #服务注册到eureka地址
 eureka:
   client:
