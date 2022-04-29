@@ -27,6 +27,8 @@
         <module>cloud-config-center-3344</module>
         <module>cloud-config-center-3344</module>
         <module>cloud-center-config-3344</module>
+        <module>cloud-config-center-3344</module>
+        <module>cloud-config-client-3355</module>
     </modules>
     <packaging>pom</packaging> <!--注意这里不是jar和war 代表是:父包-->
     <!-- 统一管理jar包版本 -->
