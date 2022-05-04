@@ -1,0 +1,45 @@
+server:
+  port: 2001
+seata:
+  tx-service-group: my_test_tx_group # 一定用这个默认的
+  enabled: true
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 127.0.0.1:8848
+      group : SEATA_GROUP
+      namespace: ""
+      username: nacos
+      password: nacos
+
+spring:
+  application:
+    name: seata-order-service
+  cloud:
+#    alibaba:
+#      seata:
+#        #自定义事务组名称需要与seata-server中的对应
+#        tx-service-group: bing_group
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_order
+    username: root
+    password: pwb2001
+
+feign:
+  hystrix:
+    enabled: false
+
+logging:
+  level:
+    io:
+      seata: info
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+
+

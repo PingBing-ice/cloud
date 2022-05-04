@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class FlowLimitController {
     @GetMapping("/testA")
     public String testA() {
-        log.info(Thread.currentThread().getName()+"TestA===================");
+        log.info(Thread.currentThread().getName() + "TestA===================");
         return "------testA";
     }
 
@@ -24,22 +24,25 @@ public class FlowLimitController {
     }
 
     @GetMapping("/testD")
-    public String testD()
-    {
+    public String testD() {
         //暂停几秒钟线程
-        try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("testD 测试RT");
         return "------testD";
     }
 
     @GetMapping("/host")
-    @SentinelResource(value = "host",blockHandler = "del_host") //设置 兜底方法
-    public String testHostKey(@RequestParam(value = "p1",required = false)String p1,  // required 表示非必要填
-                              @RequestParam(value = "p2",required = false)String p2) {
+    @SentinelResource(value = "host", blockHandler = "del_host") //设置 兜底方法
+    public String testHostKey(@RequestParam(value = "p1", required = false) String p1,  // required 表示非必要填
+                              @RequestParam(value = "p2", required = false) String p2) {
         if (p1 == null || p2 == null) {
             return "======testHostKey";
         }
-        return "======testHostKey "+p1+"\t"+p2;
+        return "======testHostKey " + p1 + "\t" + p2;
     }
 
     public String del_host(String p1, String p2, BlockException ex) {

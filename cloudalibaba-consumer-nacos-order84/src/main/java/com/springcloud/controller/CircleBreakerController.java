@@ -4,7 +4,10 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.springcloud.entities.CommonResult;
 import com.springcloud.entities.Payment;
+
+import com.springcloud.service.PaymentServiceSQL;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +24,12 @@ public class CircleBreakerController {
     @Resource
     private RestTemplate restTemplate;
 
+
+
     @RequestMapping("/con/{id}")
     @SentinelResource(value = "fallback", fallback = "handlerFallback",  //fallback负责业务异常
             blockHandler = "blockHandler",  //blockHandler负责在sentinel里面配置的降级限流 ,两个都触发了优先听blockHandler
-            exceptionsToIgnore = {IllegalArgumentException.class})
+            exceptionsToIgnore = {IllegalArgumentException.class})  // 排除异常
     public CommonResult<Payment> fallback(@PathVariable Long id) {
         CommonResult<Payment> result = restTemplate.getForObject(SERVICE_URL + "/paymentSQL/" + id, CommonResult.class, id);
         if (id == 4) {
@@ -44,5 +49,17 @@ public class CircleBreakerController {
         Payment payment = new Payment(id, "null");
         return new CommonResult<>(445, "blockHandler-sentinel限流,无此流水: blockException  " + blockException.getMessage(), payment);
     }
+
+    // ====================openFeign
+//    @Resource
+//    public PaymentServiceSQL paymentServiceSQL;
+//    @GetMapping("/consumer/openfeign/{id}")
+//    public CommonResult<Payment> paymentSQL(@PathVariable("id") Long id) {
+//        if (id == 4) {
+//            throw new RuntimeException("没有该id");
+//        }
+//        return paymentServiceSQL.paymentSQL(id);
+//    }
+
 }
 
